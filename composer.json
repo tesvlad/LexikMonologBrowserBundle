@@ -1,5 +1,5 @@
 {
-    "name": "tesvlad/monolog-browser-bundle",
+    "name": "lexik/monolog-browser-bundle",
     "type": "symfony-bundle",
     "description": "This Symfony2 bundle provides a Doctrine DBAL handler for Monolog and a web UI to display log entries",
     "keywords": ["Symfony2", "bundle", "monolog", "logger", "doctrine"],
