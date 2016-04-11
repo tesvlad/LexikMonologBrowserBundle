@@ -3,9 +3,13 @@
 namespace Lexik\Bundle\MonologBrowserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -23,20 +27,20 @@ class LogSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('term', 'search', array(
+            ->add('term', SearchType::class, array(
                 'required' => false,
             ))
-            ->add('level', 'choice', array(
+            ->add('level', ChoiceType::class, array(
                 'choices'     => $options['log_levels'],
                 'required'    => false,
             ))
-            ->add('date_from', 'datetime', array(
+            ->add('date_from', DateTimeType::class, array(
                 'date_widget' => 'single_text',
                 'date_format' => 'MM/dd/yyyy',
                 'time_widget' => 'text',
                 'required'    => false,
             ))
-            ->add('date_to', 'datetime', array(
+            ->add('date_to', DateTimeType::class, array(
                 'date_widget' => 'single_text',
                 'date_format' => 'MM/dd/yyyy',
                 'time_widget' => 'text',
@@ -49,7 +53,7 @@ class LogSearchType extends AbstractType
             return Type::getType('datetime')->convertToDatabaseValue($date, $qb->getConnection()->getDatabasePlatform());
         };
 
-        $builder->addEventListener(FormEvents::POST_BIND, function(FormEvent $event) use ($qb, $convertDateToDatabaseValue) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) use ($qb, $convertDateToDatabaseValue) {
             $data = $event->getData();
 
             if (null !== $data['term']) {
@@ -79,7 +83,7 @@ class LogSearchType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setRequired(array(
@@ -89,18 +93,9 @@ class LogSearchType extends AbstractType
                 'log_levels'      => array(),
                 'csrf_protection' => false,
             ))
-            ->setAllowedTypes(array(
-                'log_levels'    => 'array',
-                'query_builder' => '\Doctrine\DBAL\Query\QueryBuilder',
-            ))
+            ->setAllowedTypes('log_levels'  , 'array')
+            ->setAllowedTypes('query_builder' , '\Doctrine\DBAL\Query\QueryBuilder')
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'search';
-    }
 }
