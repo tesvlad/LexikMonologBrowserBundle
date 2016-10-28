@@ -31,7 +31,7 @@ class LogSearchType extends AbstractType
                 'required' => false,
             ))
             ->add('level', ChoiceType::class, array(
-                'choices'     => $options['log_levels'],
+                'choices'     => array_flip($options['log_levels']),
                 'required'    => false,
             ))
             ->add('date_from', DateTimeType::class, array(
