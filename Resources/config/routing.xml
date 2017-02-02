@@ -11,4 +11,7 @@
     <route id="lexik_monolog_browser_show" path="/{id}/show">
         <default key="_controller">LexikMonologBrowserBundle:Default:show</default>
     </route>
+    <route id="lexik_monolog_browser_truncate" path="/truncate">
+        <default key="_controller">LexikMonologBrowserBundle:Default:truncate</default>
+    </route>
 </routes>
