@@ -139,4 +139,12 @@ class LogRepository
 
         return $normalizedLevels;
     }
+    
+    /**
+     * @return void
+     */
+    public function truncate()
+    {
+        $this->conn->exec(sprintf('DELETE * FROM %s', $this->tableName));
+    }
 }
