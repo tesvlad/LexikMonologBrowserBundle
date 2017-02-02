@@ -75,6 +75,16 @@ class DefaultController extends Controller
             'base_layout'  => $this->getBaseLayout(),
         ));
     }
+    
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function truncateAction()
+    {
+        $this->getLogRepository()->truncate();
+
+        return $this->redirectToRoute('lexik_monolog_browser_index');
+    }
 
     /**
      * @return string
