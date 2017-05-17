@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Lexik\Bundle\MonologBrowserBundle\Model\SchemaBuilder;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
