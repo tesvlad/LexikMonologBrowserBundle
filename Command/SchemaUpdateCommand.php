@@ -3,10 +3,12 @@
 namespace Lexik\Bundle\MonologBrowserBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Lexik\Bundle\MonologBrowserBundle\Model\SchemaBuilder;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @author Jeremy Barthe <j.barthe@lexik.fr>
@@ -46,12 +48,15 @@ class SchemaUpdateCommand extends ContainerAwareCommand
         $output->writeln(sprintf('<info>SQL operations to execute to Monolog table "<comment>%s</comment>":</info>', $tableName));
         $output->writeln(implode(';' . PHP_EOL, $sqls));
 
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog->askConfirmation(
-                $output,
-                '<question>Do you want to execute these SQL operations?</question>',
-                false
-            )) {
+        /** @var  $dialog QuestionHelper */
+        $dialog = $this->getHelperSet()->get('question');
+        $question = new ConfirmationQuestion('<question>Do you want to execute these SQL operations?</question>', false);
+        if (!$dialog->ask(
+            $input,
+            $output,
+            $question
+        )
+        ) {
             return;
         }
 
