@@ -145,6 +145,6 @@ class LogRepository
      */
     public function truncate()
     {
-        $this->conn->exec(sprintf('DELETE FROM %s WHERE datetime::date < (CURRENT_DATE - INTERVAL '2 day')::date', $this->tableName));
+        $this->conn->exec(sprintf('DELETE FROM %s WHERE datetime::date < (CURRENT_DATE - INTERVAL \'2 day\')::date', $this->tableName));
     }
 }
